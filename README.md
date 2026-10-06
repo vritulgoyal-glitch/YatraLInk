@@ -151,6 +151,3 @@ Search API
 Best Journey Options
 
 
-## CodeRabbit Test
-
-This section is used to verify the YatraLink CodeRabbit review workflow.
