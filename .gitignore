@@ -35,3 +35,14 @@ temp/
 # Secrets
 *.pem
 *.key
+# Package manager files
+.pnpm-store/
+.yarn/
+
+# Test/coverage
+.coverage
+htmlcov/
+.pytest_cache/
+
+# Python package build metadata
+yatrallink_api.egg-info/
