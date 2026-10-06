@@ -1,0 +1,72 @@
+language: "en-US"
+
+reviews:
+  profile: "chill"
+
+  request_changes_workflow: false
+
+  high_level_summary: true
+  poem: false
+
+  review_status: true
+  commit_status: true
+
+  auto_review:
+    enabled: true
+    drafts: false
+
+  path_instructions:
+    - path: "engine/**"
+      instructions: |
+        This directory contains the core YatraLink railway connection engine.
+        Pay special attention to:
+        - impossible train connections
+        - incorrect station ordering
+        - departure before arrival
+        - invalid connection times
+        - route cycles
+        - duplicate journey paths
+        - incorrect same-train split detection
+        - incorrect fare aggregation
+        - incorrect journey duration
+        - ranking inconsistencies
+        - timezone/date/day-offset bugs
+
+    - path: "services/**"
+      instructions: |
+        Review API and service code for:
+        - incorrect validation
+        - security issues
+        - API contract inconsistencies
+        - availability data freshness
+        - error handling
+        - race conditions
+        - excessive external API calls
+        - leaked secrets
+
+    - path: "apps/web/**"
+      instructions: |
+        Review the frontend for:
+        - incorrect journey information
+        - misleading availability states
+        - accessibility
+        - responsive behavior
+        - loading/error states
+        - unnecessary API calls
+        - client-side security issues
+
+    - path: "data/**"
+      instructions: |
+        Review railway data schemas and ingestion logic carefully.
+        Ensure train routes preserve station sequence, arrival/departure
+        times, day offsets and data-source timestamps.
+
+  path_filters:
+    - "!node_modules/**"
+    - "!dist/**"
+    - "!build/**"
+    - "!.next/**"
+    - "!*.lock"
+
+chat:
+  auto_reply: true
