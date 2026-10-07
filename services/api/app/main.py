@@ -11,6 +11,6 @@ app = FastAPI(
 def health() -> dict[str, str]:
     return {
         "status": "ok",
-        "service": "yatrallink-api",
+        "service": "yatralink-api",
         "version": "0.1.0",
     }
