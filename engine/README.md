@@ -165,7 +165,7 @@ Configuration lives in `engine.config.SearchConfiguration`:
 | --- | --- | --- |
 | `minimum_connection_minutes` | `30` | Required transfer time between two different trains at one station |
 | `tight_connection_max_buffer_minutes` | `30` | A valid connection with at most this much spare buffer is `TIGHT` |
-| `cross_station_minimum_minutes` | `90` | Default requirement for a station change |
+| `cross_station_minimum_minutes` | `90` | Global floor for a station change; with an explicit allowance the requirement is `max(allowance.minimum_minutes, this value)`, without one the transfer is invalid |
 | `allow_cross_station_transfers` | `False` | Station changes are off unless explicitly enabled *and* declared by the data |
 | `max_train_changes` | `2` | Hard cap |
 | `max_segments` | `3` | Hard cap |
@@ -187,15 +187,19 @@ Configuration lives in `engine.config.SearchConfiguration`:
   * `buffer > tight_connection_max_buffer_minutes` → `SAFE`
 
   So a 20-minute transfer against a 30-minute minimum is `INVALID`, a 30-minute
-  transfer is valid but `TIGHT` (buffer 0), and a 60-minute transfer is `SAFE`
-  (buffer 30).
+  transfer is valid but `TIGHT` (buffer 0), and a 75-minute transfer is `SAFE`
+  (buffer 45, above the 30-minute tight ceiling). A 60-minute transfer has a
+  buffer of exactly 30, which is still `TIGHT`.
 
 `CROSS_STATION_TRANSFER`
 : Only considered when `allow_cross_station_transfers` is enabled **and** the data
   declares a `TransferAllowance` for that **ordered** station pair. Station
-  changes are directional — `NDLS → DEL` does not imply `DEL → NDLS`. The
-  requirement is `max(allowance.minimum_minutes, minimum_connection_minutes)`, and
-  the risk is **capped at `TIGHT`**: a station change is never `SAFE`.
+  changes are directional — `NDLS → DEL` does not imply `DEL → NDLS`. Without a
+  declared allowance the transfer is invalid, even when the switch is enabled.
+  When an allowance exists the requirement is
+  `max(allowance.minimum_minutes, cross_station_minimum_minutes)` — the explicit
+  allowance and the global cross-station minimum are both respected — and the
+  risk is **capped at `TIGHT`**: a station change is never `SAFE`.
 
 The engine never assumes two distinct station codes are the same place. `NDLS`
 and `DEL` are different stations unless the data says otherwise.
@@ -230,8 +234,13 @@ total = sum(weight_i * subscore_i) // sum(weight_i)      # 0..1000, integer
 Fare and duration have no absolute maximum, so they are normalised against the
 **observed range in this candidate set** (`normalise()`), using integer
 arithmetic. When every candidate shares a value, that component scores 1000 for
-everyone — it neither rewards nor penalises. An **unknown fare scores 0**, so an
-unpriced journey can never out-rank a genuinely cheaper priced one.
+everyone — it neither rewards nor penalises. An **unknown fare scores 0** on the
+fare component — it receives no fare credit — but the overall ranking is decided
+by the complete weighted score, so a journey whose fare is unknown can still
+out-rank a priced one when its other components (availability, duration, risk,
+…) carry enough weight. What the zero-fare rule guarantees is that the fare
+component itself never rewards an unpriced journey, and the fare tiebreaker
+places an unknown fare last among equal scores.
 
 Weights are *relative*: only their ratios matter, because the total is normalised
 by their sum. "Optimise for time" or "optimise for price" is therefore a
@@ -279,6 +288,9 @@ Nothing is dropped silently — the result carries
 ```python
 from datetime import date
 from engine import SearchRequest, generate_journey_options
+from engine.fixtures import load_fixture_network
+
+network = load_fixture_network()  # the shipped synthetic snapshot
 
 request = SearchRequest(origin="BLR", destination="DEL", travel_date=date(2026, 6, 15))
 

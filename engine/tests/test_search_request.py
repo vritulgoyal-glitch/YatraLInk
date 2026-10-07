@@ -8,7 +8,7 @@ import pytest
 
 from engine.config import SearchConfiguration
 from engine.enums import TravelClass
-from engine.errors import SearchRequestError
+from engine.errors import DomainValidationError, SearchRequestError
 from engine.ranking import normalise
 from engine.search import SearchRequest
 
@@ -116,7 +116,7 @@ class TestInvalidRequests:
             )
 
     def test_unsupported_travel_class_is_rejected(self) -> None:
-        with pytest.raises(ValueError):
+        with pytest.raises(SearchRequestError):
             SearchRequest(
                 origin="BLR",
                 destination="DEL",
@@ -161,6 +161,52 @@ class TestInvalidRequests:
                 travel_date=TRAVEL_DATE,
                 earliest_departure=time(8, 30, 15),
             )
+
+
+class TestCoercionValidationErrorContract:
+    """The documented validation contract: coercion failures raise DomainValidationError."""
+
+    def test_unsupported_travel_class_raises_domain_validation_error(self) -> None:
+        from engine.enums import coerce_travel_class
+
+        with pytest.raises(DomainValidationError):
+            coerce_travel_class("FIRST_CLASS_LUXURY")
+
+    def test_domain_validation_error_is_still_a_value_error(self) -> None:
+        """Backwards compatibility: every engine validation error is a ValueError."""
+        from engine.enums import coerce_travel_class
+
+        assert issubclass(DomainValidationError, ValueError)
+        with pytest.raises(ValueError):
+            coerce_travel_class("FIRST_CLASS_LUXURY")
+
+    def test_non_string_travel_class_raises_domain_validation_error(self) -> None:
+        from engine.enums import coerce_travel_class
+
+        with pytest.raises(DomainValidationError):
+            coerce_travel_class(None)  # type: ignore[arg-type]
+
+    def test_unsupported_availability_state_raises_domain_validation_error(self) -> None:
+        from engine.enums import coerce_availability_state
+
+        with pytest.raises(DomainValidationError):
+            coerce_availability_state("CONFIRMED")
+
+    def test_non_string_availability_state_raises_domain_validation_error(self) -> None:
+        from engine.enums import coerce_availability_state
+
+        with pytest.raises(DomainValidationError):
+            coerce_availability_state(123)  # type: ignore[arg-type]
+
+    def test_error_messages_list_the_supported_values(self) -> None:
+        from engine.enums import coerce_availability_state, coerce_travel_class
+
+        with pytest.raises(DomainValidationError) as travel_class_error:
+            coerce_travel_class("NOPE")
+        assert "3A" in str(travel_class_error.value)
+        with pytest.raises(DomainValidationError) as state_error:
+            coerce_availability_state("NOPE")
+        assert "NOT_AVAILABLE" in str(state_error.value)
 
 
 class TestSearchConfiguration:

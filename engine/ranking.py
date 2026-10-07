@@ -37,9 +37,11 @@ Component                     Meaning of 1000
 ============================  =================================================
 
 ``UNKNOWN`` availability and an unknown fare are never scored as if they were
-good: ``UNKNOWN`` sits on the documented availability ladder and an unknown fare
-is pinned to the worst fare sub-score, because an unpriced journey must not
-out-rank a genuinely cheaper priced one.
+good: ``UNKNOWN`` sits on the documented availability ladder, and an unknown fare
+receives a zero fare contribution (sub-score 0), so the fare component never
+rewards an unpriced journey.  The overall ranking is still determined by the
+complete weighted score, so other components may legitimately outweigh the fare
+component.
 
 Configurable behaviour
 ----------------------
@@ -368,7 +370,8 @@ def score_journey(
 
     total_fare = journey.total_fare
     if total_fare is None or context.min_fare_paise is None or context.max_fare_paise is None:
-        # An unknown fare must never look attractive: pin it to the worst score.
+        # An unknown fare contributes nothing: zero fare sub-score.  The overall
+        # ranking is still decided by the complete weighted score.
         fare_subscore = 0
         fare_detail = (
             "fare unknown; scored at the worst level because an unpriced journey "

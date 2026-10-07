@@ -14,9 +14,10 @@ state on the desirability ladder::
 so the aggregate is the maximum-desirability-index state across segments.  This
 matters in two documented ways:
 
-* ``UNKNOWN`` outranks ``NOT_AVAILABLE`` (nothing has been reported as
-  impossible), but it ranks *below* ``WAITLIST`` and is **never** treated as
-  confirmed.  A journey is confirmed only when every segment is ``AVAILABLE``.
+* ``UNKNOWN`` is *worse* than ``WAITLIST`` (unknown inventory is not actionable)
+  but *better* than ``NOT_AVAILABLE`` (nothing has been reported as impossible);
+  it is **never** treated as confirmed.  A journey is confirmed only when every
+  segment is ``AVAILABLE``.
 * A journey with one ``NOT_AVAILABLE`` segment aggregates to ``NOT_AVAILABLE``
   and is rejected by the pipeline before ranking.
 """

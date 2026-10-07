@@ -231,7 +231,7 @@ class TestJourneySegment:
     def test_unknown_availability_string_is_rejected(self) -> None:
         train = make_train("YT9001", [("BLR", None, "06:00", 0), ("HYD", "08:00", None, 0)])
         leg = make_segment(train, "BLR", "HYD")
-        with pytest.raises(ValueError):
+        with pytest.raises(DomainValidationError):
             JourneySegment(
                 train_number=leg.train_number,
                 train_name=leg.train_name,

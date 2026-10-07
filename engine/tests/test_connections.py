@@ -301,7 +301,9 @@ class TestCrossStationTransfers:
         assert assessment.valid is True
         assert assessment.risk is ConnectionRisk.TIGHT
         assert assessment.risk is not ConnectionRisk.SAFE
-        assert assessment.required_minutes == 45
+        # The global cross-station minimum (90) is stricter than the 45-minute
+        # allowance, so it wins: max(allowance, cross_station_minimum_minutes).
+        assert assessment.required_minutes == 90
 
     def test_station_change_below_the_allowance_is_invalid(self) -> None:
         enabled = SearchConfiguration(allow_cross_station_transfers=True)
@@ -315,10 +317,59 @@ class TestCrossStationTransfers:
             ),
         )
         assert assessment.valid is False
+        assert assessment.required_minutes == 90
+
+    def test_the_global_cross_station_minimum_is_always_respected(self) -> None:
+        """max(allowance, cross_station_minimum_minutes): the stricter rule wins."""
+        enabled = SearchConfiguration(allow_cross_station_transfers=True)
+        assessment = assess_connection(
+            kind=ConnectionKind.CROSS_STATION_TRANSFER,
+            arrival=_arrives_at(20, 0),
+            departure=_departs_at(21, 30),  # 90 minutes, exactly the global minimum
+            config=enabled,
+            allowance=TransferAllowance(
+                from_station_code="NDLS", to_station_code="DEL", minimum_minutes=45
+            ),
+        )
+        assert assessment.required_minutes == 90
+        assert assessment.valid is True
+        assert assessment.risk is ConnectionRisk.TIGHT
+
+    def test_a_generous_allowance_raises_the_requirement_above_the_global_minimum(self) -> None:
+        enabled = SearchConfiguration(allow_cross_station_transfers=True)
+        assessment = assess_connection(
+            kind=ConnectionKind.CROSS_STATION_TRANSFER,
+            arrival=_arrives_at(20, 0),
+            departure=_departs_at(21, 30),  # 90 minutes, exactly the global minimum
+            config=enabled,
+            allowance=TransferAllowance(
+                from_station_code="NDLS", to_station_code="DEL", minimum_minutes=120
+            ),
+        )
+        assert assessment.required_minutes == 120
+        assert assessment.valid is False  # the 90-minute gap is below the 120-minute allowance
+
+    def test_an_allowance_stricter_than_the_global_minimum_is_respected(self) -> None:
+        enabled = SearchConfiguration(
+            allow_cross_station_transfers=True, cross_station_minimum_minutes=30
+        )
+        assessment = assess_connection(
+            kind=ConnectionKind.CROSS_STATION_TRANSFER,
+            arrival=_arrives_at(20, 0),
+            departure=_departs_at(21, 0),  # 60 minutes
+            config=enabled,
+            allowance=TransferAllowance(
+                from_station_code="NDLS", to_station_code="DEL", minimum_minutes=45
+            ),
+        )
+        assert assessment.required_minutes == 45
+        assert assessment.valid is True
+        assert assessment.risk is ConnectionRisk.TIGHT
 
     def test_allowance_takes_the_stricter_of_the_two_rules(self) -> None:
+        """The global cross-station minimum is respected even with an allowance."""
         enabled = SearchConfiguration(
-            allow_cross_station_transfers=True, minimum_connection_minutes=60
+            allow_cross_station_transfers=True, cross_station_minimum_minutes=60
         )
         assessment = assess_connection(
             kind=ConnectionKind.CROSS_STATION_TRANSFER,
@@ -377,6 +428,33 @@ class TestConnectionKindClassification:
         )
 
 
+class TestRequiredConnectionMinutes:
+    def test_cross_station_requirement_is_the_max_of_allowance_and_global_minimum(self) -> None:
+        from engine.connections import required_connection_minutes
+
+        config = SearchConfiguration(allow_cross_station_transfers=True)
+        allowance = TransferAllowance(
+            from_station_code="NDLS", to_station_code="DEL", minimum_minutes=120
+        )
+        assert (
+            required_connection_minutes(
+                ConnectionKind.CROSS_STATION_TRANSFER, config=config, allowance=allowance
+            )
+            == 120
+        )
+
+    def test_cross_station_requirement_without_an_allowance_is_a_contract_error(self) -> None:
+        """A different-station transfer without an allowance is invalid by contract."""
+        from engine.connections import required_connection_minutes
+        from engine.errors import DomainValidationError
+
+        config = SearchConfiguration(allow_cross_station_transfers=True)
+        with pytest.raises(DomainValidationError):
+            required_connection_minutes(
+                ConnectionKind.CROSS_STATION_TRANSFER, config=config, allowance=None
+            )
+
+
 class TestValidateConnection:
     def test_valid_connection_returns_info(self, config) -> None:
         first_train = make_train("YT9001", [("BLR", None, "06:00", 0), ("HYD", "10:00", None, 0)])
@@ -421,3 +499,9 @@ class TestValidateConnection:
 
     def test_rule_description_mentions_the_minimum(self, config) -> None:
         assert "30" in describe_connection_rule(config)
+
+    def test_rule_description_states_the_cross_station_contract_when_enabled(self) -> None:
+        enabled = SearchConfiguration(allow_cross_station_transfers=True)
+        rule = describe_connection_rule(enabled)
+        assert "max(allowance" in rule
+        assert "90 min" in rule  # the global cross-station minimum

@@ -98,8 +98,11 @@ class SearchConfiguration:
     minimum_connection_minutes: int = 30
     #: A valid connection whose spare buffer is <= this is TIGHT; above it SAFE.
     tight_connection_max_buffer_minutes: int = 30
-    #: Default requirement for a different-station transfer when the data source
-    #: provides an allowance but with a smaller value than this.
+    #: Global floor for a different-station transfer.  When the data source
+    #: declares an explicit ``TransferAllowance`` for the station pair, the
+    #: requirement is ``max(allowance.minimum_minutes, this value)`` — both the
+    #: allowance and the global minimum are respected.  Without an allowance the
+    #: transfer is invalid regardless of this value.
     cross_station_minimum_minutes: int = 90
     #: Master switch: different-station transfers are never accepted unless this
     #: is enabled *and* the data explicitly allows the specific station pair.
@@ -163,7 +166,12 @@ class SearchConfiguration:
 
     @property
     def required_buffers(self) -> dict[str, int]:
-        """Requirement per transfer kind, useful for diagnostics and reports."""
+        """Baseline requirement per transfer kind, useful for diagnostics.
+
+        For ``CROSS_STATION_TRANSFER`` this is the global floor; an explicit
+        ``TransferAllowance`` may raise the effective requirement further
+        (``max(allowance.minimum_minutes, cross_station_minimum_minutes)``).
+        """
         return {
             "SAME_TRAIN": 0,
             "CROSS_TRAIN_SAME_STATION": self.minimum_connection_minutes,

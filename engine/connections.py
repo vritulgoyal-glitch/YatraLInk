@@ -29,8 +29,11 @@ Rules (all configurable via :class:`engine.config.SearchConfiguration`)
     ``allow_cross_station_transfers`` is enabled.  Otherwise the transfer is
     ``INVALID`` — the engine never assumes two station codes are the same place.
     When allowed, the requirement is ``max(allowance.minimum_minutes,
-    minimum_connection_minutes)`` and the risk is capped at ``TIGHT``: a station
-    change is never ``SAFE``.
+    cross_station_minimum_minutes)`` — the explicit allowance and the global
+    cross-station minimum are *both* respected — and the risk is capped at
+    ``TIGHT``: a station change is never ``SAFE``.  Without an explicit
+    allowance the transfer stays ``INVALID`` even when
+    ``allow_cross_station_transfers`` is enabled.
 
 All arithmetic uses real :class:`datetime.datetime` values, never raw clock
 times, so midnight-crossing and multi-day connections are handled exactly.
@@ -105,14 +108,26 @@ def required_connection_minutes(
     config: SearchConfiguration,
     allowance: TransferAllowance | None,
 ) -> int:
-    """Minutes the transfer requires under ``config`` for a transfer of ``kind``."""
+    """Minutes the transfer requires under ``config`` for a transfer of ``kind``.
+
+    For a ``CROSS_STATION_TRANSFER`` the requirement is
+    ``max(allowance.minimum_minutes, config.cross_station_minimum_minutes)``:
+    the explicit allowance and the global cross-station minimum are both
+    respected.  A different-station transfer *without* an explicit allowance is
+    invalid by contract, so this helper raises
+    :class:`engine.errors.DomainValidationError` instead of inventing a
+    requirement for a transfer that can never be accepted.
+    """
     if kind is ConnectionKind.SAME_TRAIN:
         return 0
     if kind is ConnectionKind.CROSS_TRAIN_SAME_STATION:
         return config.minimum_connection_minutes
     if allowance is None:
-        return config.cross_station_minimum_minutes
-    return max(allowance.minimum_minutes, config.minimum_connection_minutes)
+        raise DomainValidationError(
+            "a different-station transfer requires an explicit TransferAllowance "
+            "from the data source; without one the transfer is invalid"
+        )
+    return max(allowance.minimum_minutes, config.cross_station_minimum_minutes)
 
 
 def assess_connection(
@@ -133,7 +148,13 @@ def assess_connection(
     tu.require_datetime(departure, "connection departure")
 
     transfer = tu.minutes_between(arrival, departure)
-    required = required_connection_minutes(kind, config=config, allowance=allowance)
+    if kind is ConnectionKind.CROSS_STATION_TRANSFER and allowance is None:
+        # No explicit allowance: the transfer is invalid by contract, however
+        # generous the gap is.  Report the global cross-station minimum as the
+        # requirement that no allowance satisfied, then reject below.
+        required = config.cross_station_minimum_minutes
+    else:
+        required = required_connection_minutes(kind, config=config, allowance=allowance)
     buffer = transfer - required
 
     if kind is ConnectionKind.SAME_TRAIN:
@@ -289,9 +310,10 @@ def describe_connection_rule(config: SearchConfiguration) -> str:
         f"TIGHT up to +{config.tight_connection_max_buffer_minutes} min buffer; "
         f"station change: "
         + (
-            f"allowed with an explicit allowance >= {config.cross_station_minimum_minutes} min "
+            "allowed with an explicit allowance; the required time is "
+            f"max(allowance, {config.cross_station_minimum_minutes} min) "
             "(risk capped at TIGHT)"
             if config.allow_cross_station_transfers
-            else "not allowed unless explicitly enabled"
+            else "not allowed unless explicitly enabled and declared by the data"
         )
     )

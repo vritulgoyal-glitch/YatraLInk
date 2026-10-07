@@ -13,6 +13,8 @@ from __future__ import annotations
 
 from enum import StrEnum, unique
 
+from engine.errors import DomainValidationError
+
 __all__ = [
     "AVAILABILITY_DESIRABILITY",
     "AVAILABILITY_ORDER",
@@ -189,23 +191,35 @@ class TravelClass(StrEnum):
 
 
 def coerce_availability_state(value: AvailabilityState | str) -> AvailabilityState:
-    """Coerce ``value`` to :class:`AvailabilityState` or raise."""
+    """Coerce ``value`` to :class:`AvailabilityState` or raise.
+
+    Raises :class:`engine.errors.DomainValidationError` (also a
+    :class:`ValueError`) for anything that is not one of the five documented
+    availability states.
+    """
     if isinstance(value, AvailabilityState):
         return value
     if isinstance(value, str):
         candidate = value.strip().upper().replace(" ", "_")
         try:
             return AvailabilityState(candidate)
-        except ValueError as exc:  # pragma: no cover - message is asserted in tests
-            raise ValueError(
+        except ValueError as exc:
+            raise DomainValidationError(
                 f"unsupported availability state {value!r}; "
                 f"expected one of {[s.value for s in AvailabilityState]}"
             ) from exc
-    raise ValueError(f"availability state must be a string, got {type(value).__name__}")
+    raise DomainValidationError(
+        f"availability state must be a string, got {type(value).__name__}"
+    )
 
 
 def coerce_travel_class(value: TravelClass | str) -> TravelClass:
-    """Coerce ``value`` to :class:`TravelClass` or raise."""
+    """Coerce ``value`` to :class:`TravelClass` or raise.
+
+    Raises :class:`engine.errors.DomainValidationError` (also a
+    :class:`ValueError`) for anything that is not one of the supported
+    reservation classes.
+    """
     if isinstance(value, TravelClass):
         return value
     if isinstance(value, str):
@@ -213,8 +227,8 @@ def coerce_travel_class(value: TravelClass | str) -> TravelClass:
         try:
             return TravelClass(candidate)
         except ValueError as exc:
-            raise ValueError(
+            raise DomainValidationError(
                 f"unsupported travel class {value!r}; "
                 f"expected one of {[c.value for c in TravelClass]}"
             ) from exc
-    raise ValueError(f"travel class must be a string, got {type(value).__name__}")
+    raise DomainValidationError(f"travel class must be a string, got {type(value).__name__}")

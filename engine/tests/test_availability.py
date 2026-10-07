@@ -11,6 +11,7 @@ from engine.availability import (
     summarize_availability,
 )
 from engine.enums import AVAILABILITY_DESIRABILITY, AVAILABILITY_ORDER, AvailabilityState
+from engine.errors import DomainValidationError
 from engine.money import Fare
 from engine.tests.builders import TRAVEL_DATE
 
@@ -95,7 +96,7 @@ class TestAvailabilityModel:
         assert entry.state is AvailabilityState.WAITLIST
 
     def test_invalid_state_string_is_rejected(self) -> None:
-        with pytest.raises(ValueError):
+        with pytest.raises(DomainValidationError):
             Availability(
                 train_number="YT1",
                 origin_station_code="AAA",
@@ -201,8 +202,8 @@ class TestAggregation:
         summary = summarize_availability([AvailabilityState.WAITLIST, AvailabilityState.UNKNOWN])
         assert summary.state is AvailabilityState.UNKNOWN
 
-    def test_unknown_outranks_not_available_as_better(self) -> None:
-        """Nothing has been reported as impossible, so UNKNOWN beats NOT_AVAILABLE."""
+    def test_unknown_and_not_available_aggregate_to_not_available(self) -> None:
+        """The worst state wins: NOT_AVAILABLE is worse than UNKNOWN."""
         summary = summarize_availability(
             [AvailabilityState.UNKNOWN, AvailabilityState.NOT_AVAILABLE]
         )
