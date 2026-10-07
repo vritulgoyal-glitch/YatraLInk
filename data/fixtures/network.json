@@ -1,0 +1,36 @@
+{
+  "name": "phase1-synthetic-sample",
+  "description": "Synthetic sample railway network for YatraLink Phase 1 engine tests. These are NOT Indian Railways schedules and the train numbers are invented (prefixed YT).",
+  "scenarios": [
+    "direct journey",
+    "same-train split (two and three reservations)",
+    "valid connection",
+    "tight connection",
+    "invalid connection (20 minutes and 29 minutes against a 30 minute minimum)",
+    "connection exactly at the minimum buffer",
+    "overnight connection",
+    "multi-day route (day offsets 0, 1 and 2)",
+    "unavailable segment (NOT_AVAILABLE)",
+    "RAC segment",
+    "WAITLIST segment",
+    "unknown availability (no record reported)",
+    "reverse / impossible route (DEL to BLR)",
+    "more than two train changes (AAA to EEE needs four)",
+    "different-station transfer (NDLS to DEL) with an explicit allowance",
+    "multiple competing journeys for ranking"
+  ],
+  "search_configuration": {
+    "minimum_connection_minutes": 30,
+    "tight_connection_max_buffer_minutes": 30,
+    "cross_station_minimum_minutes": 45,
+    "allow_cross_station_transfers": true,
+    "max_train_changes": 2,
+    "max_segments": 3,
+    "same_train_split_max_segments": 3,
+    "max_candidates_per_type": 4000,
+    "enable_direct": true,
+    "enable_same_train_split": true,
+    "enable_connecting": true,
+    "include_not_available_journeys": false
+  }
+}

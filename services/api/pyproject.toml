@@ -22,8 +22,10 @@ dev = [
 ]
 
 [tool.pytest.ini_options]
-testpaths = ["tests"]
-pythonpath = ["."]
+# The backend suite lives here; the deterministic engine is a separate
+# top-level package beside it and is collected from the same command.
+testpaths = ["tests", "../../engine/tests"]
+pythonpath = [".", "../.."]
 
 [tool.ruff]
 line-length = 100

@@ -1,0 +1,47 @@
+{
+  "_comment": "Synthetic sample availability for YatraLink Phase 1. 'travel_date: null' means the snapshot declares this state regardless of travel date; a dated entry always takes precedence. Every amount is an integer number of paise (1 rupee = 100 paise). Segments deliberately missing from this file are reported as UNKNOWN rather than invented: YT1014 HYD-NDLS has no record at all.",
+  "availability": [
+    { "train_number": "YT1001", "origin_station_code": "BLR", "destination_station_code": "DEL", "travel_class": "3A", "state": "AVAILABLE", "fare_paise": 245000, "seats_available": 42, "travel_date": null },
+    { "train_number": "YT1001", "origin_station_code": "BLR", "destination_station_code": "HYD", "travel_class": "3A", "state": "AVAILABLE", "fare_paise": 98000, "seats_available": 120, "travel_date": null },
+    { "train_number": "YT1001", "origin_station_code": "HYD", "destination_station_code": "DEL", "travel_class": "3A", "state": "WAITLIST", "fare_paise": 147000, "seats_available": 0, "travel_date": null },
+
+    { "train_number": "YT1002", "origin_station_code": "DEL", "destination_station_code": "HYD", "travel_class": "3A", "state": "AVAILABLE", "fare_paise": 190000, "seats_available": 60, "travel_date": null },
+    { "train_number": "YT1002", "origin_station_code": "DEL", "destination_station_code": "NGP", "travel_class": "3A", "state": "AVAILABLE", "fare_paise": 90000, "seats_available": 80, "travel_date": null },
+    { "train_number": "YT1002", "origin_station_code": "NGP", "destination_station_code": "HYD", "travel_class": "3A", "state": "AVAILABLE", "fare_paise": 110000, "seats_available": 70, "travel_date": null },
+
+    { "train_number": "YT1003", "origin_station_code": "BLR", "destination_station_code": "DEL", "travel_class": "3A", "state": "RAC", "fare_paise": 220000, "seats_available": 18, "travel_date": null },
+    { "train_number": "YT1003", "origin_station_code": "BLR", "destination_station_code": "HYD", "travel_class": "3A", "state": "AVAILABLE", "fare_paise": 90000, "seats_available": 90, "travel_date": null },
+    { "train_number": "YT1003", "origin_station_code": "HYD", "destination_station_code": "DEL", "travel_class": "3A", "state": "AVAILABLE", "fare_paise": 130000, "seats_available": 55, "travel_date": null },
+    { "train_number": "YT1003", "origin_station_code": "BLR", "destination_station_code": "NGP", "travel_class": "3A", "state": "AVAILABLE", "fare_paise": 150000, "seats_available": 44, "travel_date": null },
+    { "train_number": "YT1003", "origin_station_code": "HYD", "destination_station_code": "NGP", "travel_class": "3A", "state": "AVAILABLE", "fare_paise": 40000, "seats_available": 100, "travel_date": null },
+    { "train_number": "YT1003", "origin_station_code": "NGP", "destination_station_code": "DEL", "travel_class": "3A", "state": "AVAILABLE", "fare_paise": 100000, "seats_available": 66, "travel_date": null },
+
+    { "train_number": "YT1004", "origin_station_code": "HYD", "destination_station_code": "DEL", "travel_class": "3A", "state": "NOT_AVAILABLE", "fare_paise": 150000, "seats_available": 0, "travel_date": null },
+    { "train_number": "YT1004", "origin_station_code": "HYD", "destination_station_code": "NGP", "travel_class": "3A", "state": "AVAILABLE", "fare_paise": 50000, "seats_available": 75, "travel_date": null },
+    { "train_number": "YT1004", "origin_station_code": "NGP", "destination_station_code": "DEL", "travel_class": "3A", "state": "AVAILABLE", "fare_paise": 110000, "seats_available": 48, "travel_date": null },
+
+    { "train_number": "YT1005", "origin_station_code": "BLR", "destination_station_code": "HYD", "travel_class": "3A", "state": "AVAILABLE", "fare_paise": 85000, "seats_available": 130, "travel_date": null },
+    { "train_number": "YT1006", "origin_station_code": "HYD", "destination_station_code": "DEL", "travel_class": "3A", "state": "AVAILABLE", "fare_paise": 140000, "seats_available": 52, "travel_date": null },
+    { "train_number": "YT1007", "origin_station_code": "BLR", "destination_station_code": "HYD", "travel_class": "3A", "state": "AVAILABLE", "fare_paise": 85000, "seats_available": 110, "travel_date": null },
+    { "train_number": "YT1008", "origin_station_code": "HYD", "destination_station_code": "DEL", "travel_class": "3A", "state": "AVAILABLE", "fare_paise": 140000, "seats_available": 30, "travel_date": null },
+    { "train_number": "YT1009", "origin_station_code": "HYD", "destination_station_code": "DEL", "travel_class": "3A", "state": "AVAILABLE", "fare_paise": 140000, "seats_available": 25, "travel_date": null },
+    { "train_number": "YT1010", "origin_station_code": "HYD", "destination_station_code": "DEL", "travel_class": "3A", "state": "AVAILABLE", "fare_paise": 140000, "seats_available": 22, "travel_date": null },
+    { "train_number": "YT1011", "origin_station_code": "HYD", "destination_station_code": "DEL", "travel_class": "3A", "state": "AVAILABLE", "fare_paise": 140000, "seats_available": 20, "travel_date": null },
+    { "train_number": "YT1012", "origin_station_code": "HYD", "destination_station_code": "DEL", "travel_class": "3A", "state": "AVAILABLE", "fare_paise": 140000, "seats_available": 15, "travel_date": null },
+
+    { "train_number": "YT1013", "origin_station_code": "BLR", "destination_station_code": "DEL", "travel_class": "3A", "state": "AVAILABLE", "fare_paise": 260000, "seats_available": 35, "travel_date": null },
+    { "train_number": "YT1013", "origin_station_code": "BLR", "destination_station_code": "HYD", "travel_class": "3A", "state": "AVAILABLE", "fare_paise": 95000, "seats_available": 88, "travel_date": null },
+    { "train_number": "YT1013", "origin_station_code": "HYD", "destination_station_code": "DEL", "travel_class": "3A", "state": "AVAILABLE", "fare_paise": 165000, "seats_available": 40, "travel_date": null },
+    { "train_number": "YT1013", "origin_station_code": "BLR", "destination_station_code": "NGP", "travel_class": "3A", "state": "AVAILABLE", "fare_paise": 170000, "seats_available": 33, "travel_date": null },
+    { "train_number": "YT1013", "origin_station_code": "HYD", "destination_station_code": "NGP", "travel_class": "3A", "state": "AVAILABLE", "fare_paise": 45000, "seats_available": 95, "travel_date": null },
+    { "train_number": "YT1013", "origin_station_code": "NGP", "destination_station_code": "DEL", "travel_class": "3A", "state": "AVAILABLE", "fare_paise": 90000, "seats_available": 60, "travel_date": null },
+
+    { "train_number": "YT1015", "origin_station_code": "BLR", "destination_station_code": "NDLS", "travel_class": "3A", "state": "AVAILABLE", "fare_paise": 210000, "seats_available": 50, "travel_date": null },
+    { "train_number": "YT1018", "origin_station_code": "DEL", "destination_station_code": "BPL", "travel_class": "3A", "state": "AVAILABLE", "fare_paise": 70000, "seats_available": 70, "travel_date": null },
+
+    { "train_number": "YT2001", "origin_station_code": "AAA", "destination_station_code": "BBB", "travel_class": "3A", "state": "AVAILABLE", "fare_paise": 30000, "seats_available": 40, "travel_date": null },
+    { "train_number": "YT2002", "origin_station_code": "BBB", "destination_station_code": "CCC", "travel_class": "3A", "state": "AVAILABLE", "fare_paise": 30000, "seats_available": 40, "travel_date": null },
+    { "train_number": "YT2003", "origin_station_code": "CCC", "destination_station_code": "DDD", "travel_class": "3A", "state": "AVAILABLE", "fare_paise": 30000, "seats_available": 40, "travel_date": null },
+    { "train_number": "YT2004", "origin_station_code": "DDD", "destination_station_code": "EEE", "travel_class": "3A", "state": "AVAILABLE", "fare_paise": 30000, "seats_available": 40, "travel_date": null }
+  ]
+}
