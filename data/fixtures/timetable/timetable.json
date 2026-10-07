@@ -1,0 +1,48 @@
+{
+  "metadata": {
+    "name": "yatralink-development-timetable",
+    "data_type": "DEVELOPMENT_FIXTURE_DATA",
+    "is_live_data": false,
+    "is_irctc_data": false,
+    "description": "DEVELOPMENT FIXTURE DATA. Synthetic railway timetable in the style of Indian Railways station codes. Train numbers are prefixed YTF (YatraLink Fixture) and are NOT real train numbers. Times, sequences and day offsets do NOT represent current or real railway schedules. This file is not an IRCTC data source and must never be presented to users as live availability."
+  },
+  "stations": [
+    { "code": "BLR", "name": "Dev Fixture Bengaluru City Junction", "city": "Bengaluru", "timezone": "Asia/Kolkata" },
+    { "code": "GTL", "name": "Dev Fixture Guntakal Junction", "city": "Guntakal", "timezone": "Asia/Kolkata" },
+    { "code": "HYD", "name": "Dev Fixture Hyderabad Deccan", "city": "Hyderabad", "timezone": "Asia/Kolkata" },
+    { "code": "NGP", "name": "Dev Fixture Nagpur Junction", "city": "Nagpur", "timezone": "Asia/Kolkata" },
+    { "code": "BPL", "name": "Dev Fixture Bhopal Junction", "city": "Bhopal", "timezone": "Asia/Kolkata" },
+    { "code": "DEL", "name": "Dev Fixture Delhi Junction", "city": "Delhi", "timezone": "Asia/Kolkata" }
+  ],
+  "trains": [
+    {
+      "train_number": "YTF2201",
+      "train_name": "Dev Fixture Charminar Express",
+      "stops": [
+        { "station_code": "BLR", "sequence": 1, "arrival": null, "departure": "06:00", "day_offset": 0 },
+        { "station_code": "GTL", "sequence": 2, "arrival": "10:15", "departure": "10:25", "day_offset": 0 },
+        { "station_code": "HYD", "sequence": 3, "arrival": "16:40", "departure": "17:00", "day_offset": 0 },
+        { "station_code": "NGP", "sequence": 4, "arrival": "23:00", "departure": "23:15", "day_offset": 0 },
+        { "station_code": "DEL", "sequence": 5, "arrival": "11:00", "departure": null, "day_offset": 1 }
+      ]
+    },
+    {
+      "train_number": "YTF2202",
+      "train_name": "Dev Fixture Grand Trunk Express",
+      "stops": [
+        { "station_code": "HYD", "sequence": 1, "arrival": null, "departure": "19:00", "day_offset": 0 },
+        { "station_code": "NGP", "sequence": 2, "arrival": "23:50", "departure": "00:20", "day_offset": 0, "departure_day_offset": 1 },
+        { "station_code": "BPL", "sequence": 3, "arrival": "06:30", "departure": "06:45", "day_offset": 1 },
+        { "station_code": "DEL", "sequence": 4, "arrival": "13:30", "departure": null, "day_offset": 1 }
+      ]
+    },
+    {
+      "train_number": "YTF2203",
+      "train_name": "Dev Fixture Vaigai Express",
+      "stops": [
+        { "station_code": "BLR", "sequence": 1, "arrival": null, "departure": "15:00", "day_offset": 0 },
+        { "station_code": "HYD", "sequence": 2, "arrival": "22:30", "departure": null, "day_offset": 0 }
+      ]
+    }
+  ]
+}
