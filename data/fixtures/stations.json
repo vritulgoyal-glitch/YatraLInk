@@ -1,0 +1,15 @@
+{
+  "stations": [
+    { "code": "BLR", "name": "Bengaluru Sample Junction" },
+    { "code": "HYD", "name": "Hyderabad Sample Junction" },
+    { "code": "DEL", "name": "Delhi Sample Junction" },
+    { "code": "NDLS", "name": "New Delhi Sample Terminal" },
+    { "code": "NGP", "name": "Nagpur Sample Junction" },
+    { "code": "BPL", "name": "Bhopal Sample Junction" },
+    { "code": "AAA", "name": "Alpha Sample Junction" },
+    { "code": "BBB", "name": "Bravo Sample Junction" },
+    { "code": "CCC", "name": "Charlie Sample Junction" },
+    { "code": "DDD", "name": "Delta Sample Junction" },
+    { "code": "EEE", "name": "Echo Sample Junction" }
+  ]
+}

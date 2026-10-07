@@ -1,0 +1,11 @@
+{
+  "_comment": "Explicit data-source statement that these two distinct stations may be used to change trains. The engine never assumes two station codes are the same place: without an entry here, a station change is invalid. Allowances are directional.",
+  "transfer_allowances": [
+    {
+      "from_station_code": "NDLS",
+      "to_station_code": "DEL",
+      "minimum_minutes": 45,
+      "note": "Synthetic station-change allowance between New Delhi Sample Terminal and Delhi Sample Junction."
+    }
+  ]
+}

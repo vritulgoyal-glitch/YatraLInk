@@ -1,0 +1,172 @@
+{
+  "_comment": "Synthetic sample train routes for YatraLink Phase 1. NOT real Indian Railways schedules. day_offset counts days after the date the train's route starts at its first stop.",
+  "trains": [
+    {
+      "number": "YT1001",
+      "name": "Sample Coromandel Express",
+      "stops": [
+        { "station_code": "BLR", "sequence": 1, "arrival": null, "departure": "23:30", "day_offset": 0 },
+        { "station_code": "HYD", "sequence": 2, "arrival": "05:40", "departure": "05:45", "day_offset": 1 },
+        { "station_code": "DEL", "sequence": 3, "arrival": "22:00", "departure": null, "day_offset": 1 }
+      ]
+    },
+    {
+      "number": "YT1002",
+      "name": "Sample Godavari Reverse Express",
+      "stops": [
+        { "station_code": "DEL", "sequence": 1, "arrival": null, "departure": "06:00", "day_offset": 0 },
+        { "station_code": "NGP", "sequence": 2, "arrival": "14:00", "departure": "14:15", "day_offset": 0 },
+        { "station_code": "HYD", "sequence": 3, "arrival": "23:30", "departure": null, "day_offset": 0 }
+      ]
+    },
+    {
+      "number": "YT1003",
+      "name": "Sample Konark Express",
+      "stops": [
+        { "station_code": "BLR", "sequence": 1, "arrival": null, "departure": "06:00", "day_offset": 0 },
+        { "station_code": "HYD", "sequence": 2, "arrival": "14:30", "departure": "14:45", "day_offset": 0 },
+        { "station_code": "NGP", "sequence": 3, "arrival": "23:00", "departure": "23:15", "day_offset": 0 },
+        { "station_code": "DEL", "sequence": 4, "arrival": "11:00", "departure": null, "day_offset": 1 }
+      ]
+    },
+    {
+      "number": "YT1004",
+      "name": "Sample Grand Trunk Express",
+      "stops": [
+        { "station_code": "HYD", "sequence": 1, "arrival": null, "departure": "07:00", "day_offset": 0 },
+        { "station_code": "NGP", "sequence": 2, "arrival": "13:00", "departure": "13:20", "day_offset": 0 },
+        { "station_code": "DEL", "sequence": 3, "arrival": "20:00", "departure": null, "day_offset": 0 }
+      ]
+    },
+    {
+      "number": "YT1005",
+      "name": "Sample Charminar Express",
+      "stops": [
+        { "station_code": "BLR", "sequence": 1, "arrival": null, "departure": "14:00", "day_offset": 0 },
+        { "station_code": "HYD", "sequence": 2, "arrival": "22:00", "departure": null, "day_offset": 0 }
+      ]
+    },
+    {
+      "number": "YT1006",
+      "name": "Sample Telangana Express",
+      "stops": [
+        { "station_code": "HYD", "sequence": 1, "arrival": null, "departure": "05:00", "day_offset": 0 },
+        { "station_code": "DEL", "sequence": 2, "arrival": "18:00", "departure": null, "day_offset": 0 }
+      ]
+    },
+    {
+      "number": "YT1007",
+      "name": "Sample Shatabdi Sample",
+      "stops": [
+        { "station_code": "BLR", "sequence": 1, "arrival": null, "departure": "06:00", "day_offset": 0 },
+        { "station_code": "HYD", "sequence": 2, "arrival": "12:00", "departure": null, "day_offset": 0 }
+      ]
+    },
+    {
+      "number": "YT1008",
+      "name": "Sample Jan Shatabdi Sample",
+      "stops": [
+        { "station_code": "HYD", "sequence": 1, "arrival": null, "departure": "12:20", "day_offset": 0 },
+        { "station_code": "DEL", "sequence": 2, "arrival": "23:00", "departure": null, "day_offset": 0 }
+      ]
+    },
+    {
+      "number": "YT1009",
+      "name": "Sample Rajdhani Sample",
+      "stops": [
+        { "station_code": "HYD", "sequence": 1, "arrival": null, "departure": "12:40", "day_offset": 0 },
+        { "station_code": "DEL", "sequence": 2, "arrival": "23:30", "departure": null, "day_offset": 0 }
+      ]
+    },
+    {
+      "number": "YT1010",
+      "name": "Sample Intercity Sample",
+      "stops": [
+        { "station_code": "HYD", "sequence": 1, "arrival": null, "departure": "12:29", "day_offset": 0 },
+        { "station_code": "DEL", "sequence": 2, "arrival": "23:05", "departure": null, "day_offset": 0 }
+      ]
+    },
+    {
+      "number": "YT1011",
+      "name": "Sample Express Sample",
+      "stops": [
+        { "station_code": "HYD", "sequence": 1, "arrival": null, "departure": "12:30", "day_offset": 0 },
+        { "station_code": "DEL", "sequence": 2, "arrival": "23:10", "departure": null, "day_offset": 0 }
+      ]
+    },
+    {
+      "number": "YT1012",
+      "name": "Sample Premium Express",
+      "stops": [
+        { "station_code": "HYD", "sequence": 1, "arrival": null, "departure": "13:30", "day_offset": 0 },
+        { "station_code": "DEL", "sequence": 2, "arrival": "23:59", "departure": null, "day_offset": 0 }
+      ]
+    },
+    {
+      "number": "YT1013",
+      "name": "Sample Duronto Sample",
+      "stops": [
+        { "station_code": "BLR", "sequence": 1, "arrival": null, "departure": "21:00", "day_offset": 0 },
+        { "station_code": "HYD", "sequence": 2, "arrival": "04:00", "departure": "04:15", "day_offset": 1 },
+        { "station_code": "NGP", "sequence": 3, "arrival": "12:00", "departure": "12:30", "day_offset": 2 },
+        { "station_code": "DEL", "sequence": 4, "arrival": "23:00", "departure": null, "day_offset": 2 }
+      ]
+    },
+    {
+      "number": "YT1014",
+      "name": "Sample Ajanta Express",
+      "stops": [
+        { "station_code": "HYD", "sequence": 1, "arrival": null, "departure": "14:00", "day_offset": 0 },
+        { "station_code": "NDLS", "sequence": 2, "arrival": "21:00", "departure": null, "day_offset": 0 }
+      ]
+    },
+    {
+      "number": "YT1015",
+      "name": "Sample Delhi Sample Express",
+      "stops": [
+        { "station_code": "BLR", "sequence": 1, "arrival": null, "departure": "05:00", "day_offset": 0 },
+        { "station_code": "NDLS", "sequence": 2, "arrival": "23:00", "departure": null, "day_offset": 0 }
+      ]
+    },
+    {
+      "number": "YT1018",
+      "name": "Sample Bhopal Express",
+      "stops": [
+        { "station_code": "DEL", "sequence": 1, "arrival": null, "departure": "00:30", "day_offset": 0 },
+        { "station_code": "BPL", "sequence": 2, "arrival": "06:00", "departure": null, "day_offset": 0 }
+      ]
+    },
+    {
+      "number": "YT2001",
+      "name": "Sample Chain One",
+      "stops": [
+        { "station_code": "AAA", "sequence": 1, "arrival": null, "departure": "06:00", "day_offset": 0 },
+        { "station_code": "BBB", "sequence": 2, "arrival": "08:00", "departure": null, "day_offset": 0 }
+      ]
+    },
+    {
+      "number": "YT2002",
+      "name": "Sample Chain Two",
+      "stops": [
+        { "station_code": "BBB", "sequence": 1, "arrival": null, "departure": "09:00", "day_offset": 0 },
+        { "station_code": "CCC", "sequence": 2, "arrival": "11:00", "departure": null, "day_offset": 0 }
+      ]
+    },
+    {
+      "number": "YT2003",
+      "name": "Sample Chain Three",
+      "stops": [
+        { "station_code": "CCC", "sequence": 1, "arrival": null, "departure": "12:00", "day_offset": 0 },
+        { "station_code": "DDD", "sequence": 2, "arrival": "14:00", "departure": null, "day_offset": 0 }
+      ]
+    },
+    {
+      "number": "YT2004",
+      "name": "Sample Chain Four",
+      "stops": [
+        { "station_code": "DDD", "sequence": 1, "arrival": null, "departure": "15:00", "day_offset": 0 },
+        { "station_code": "EEE", "sequence": 2, "arrival": "17:00", "departure": null, "day_offset": 0 }
+      ]
+    }
+  ]
+}
